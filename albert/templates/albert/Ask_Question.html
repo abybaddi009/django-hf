@@ -1,0 +1,29 @@
+{% extends "albert/base.html" %}
+
+{% block title %}Welcome to Q & A with Al*bert{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row" style="padding-top: 30px; padding-bottom: 30px; display: block;">
+        <h4><strong>Al*bert</strong> is a <i>A leet bidirectional encoder representational
+                transformer</i></h4>
+        <h4>Enter your passage in the text field and pose your question below.</h4>
+    </div>
+    <div class="row" style="display: block;">
+        <form action="{% url 'albert:ask' %}" method="post">
+            {% csrf_token %}
+            {{ form.passage.errors }}
+            <label for="{{ form.passage.id_for_label }}">Text: </label>
+            <textarea id="passage" type="text" name="passage"
+                placeholder="Enter the passage here...">{{ form.passage.value|default_if_none:'' }}</textarea>
+            {{ form.question.errors }}
+            <label for="{{ form.question.id_for_label }}">Question? </label>
+            <input id="question" type="text" name="question" value="{{ form.question.value|default_if_none:'' }}"
+                placeholder="Q?">
+            {% if answer %}
+            <p><strong>Answer:</strong> {{ answer }} </p>
+            {% endif %}
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</div>
+{% endblock %}
